@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <None Remove="Entity\" />
+    <None Remove="Enums\" />
+    <None Remove="ValueObject\" />
+    <None Remove="Commands\" />
+    <None Remove="Commands\Requests\" />
+    <None Remove="Commands\Responses\" />
+    <None Remove="Arguments\Responses\Aluno\" />
+    <None Remove="ViewModels\" />
+    <None Remove="AutoMapper" />
+    <None Remove="Mapping\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Entity\" />
+    <Folder Include="Enums\" />
+    <Folder Include="ValueObject\" />
+    <Folder Include="Commands\" />
+    <Folder Include="Commands\Requests\" />
+    <Folder Include="Commands\Responses\" />
+    <Folder Include="Arguments\Responses\Aluno\" />
+    <Folder Include="ViewModels\" />
+    <Folder Include="Mapping\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="Flunt" Version="1.0.5" />
+  </ItemGroup>
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+</Project>
