@@ -23,6 +23,10 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 //
 builder.Services.AddScoped<IAlunoService,AlunoService>();
 builder.Services.AddScoped<IAlunoRepository, AlunoRepository>();
+//
+builder.Services.AddScoped<IResponsavelRepository, ResponsavelRepository>();
+builder.Services.AddScoped<IResponsavelService, ResponsavelService>();
+
 builder.Services.AddScoped<DbSession>();
 builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 

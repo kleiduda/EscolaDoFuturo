@@ -25,6 +25,11 @@ namespace Api.Controllers
         {
             return await _responsavelService.CadastroResponsavel(request);
         }
+        [HttpPost("listar")]
+        public async Task<IServiceResult> ListarAlunos([FromBody] FilterRequest request)
+        {
+            return await _responsavelService.ListarResponsaveis(request);
+        }
 
 
     }
