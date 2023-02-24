@@ -3,7 +3,7 @@ using Flunt.Validations;
 
 namespace Domain.Entity
 {
-    public class Endereco : Notifiable
+    public class Endereco
     {
         public Endereco()
         {
@@ -17,7 +17,9 @@ namespace Domain.Entity
         public string Rua { get; set; }
         public string Numero { get; set; }
         public string Complemento { get; set; }
-        public Endereco(string pais, string uf, string cidade, string cep, string bairro, string rua, string numero, string complemento)
+        public int CdPessoa { get; set; }
+        public Endereco(string pais, string uf, string cidade, string cep, string bairro, 
+        string rua, string numero, string complemento)
         {
             Pais = pais;
             Uf = uf;
@@ -29,12 +31,5 @@ namespace Domain.Entity
             Complemento = complemento;
         }
 
-        public void Validate(){
-            AddNotifications(
-                new Contract()
-                .Requires()
-                .HasMaxLen(Uf, 2, "Uf", "Uf não pode conter mais de 2 caracteres")
-            );
-        }
     }
 }

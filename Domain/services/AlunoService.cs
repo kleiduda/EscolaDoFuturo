@@ -1,9 +1,12 @@
 using AutoMapper;
 using Domain.Arguments.Requests;
 using Domain.Arguments.Responses;
+using Domain.Commands;
 using Domain.Entity;
+using Domain.Enums;
 using Domain.Interfaces.Repository;
 using Domain.Interfaces.Services;
+using Domain.ValueObject;
 using Domain.ViewModels;
 using Flunt.Notifications;
 
@@ -18,27 +21,42 @@ namespace Domain.services
             _mapper = mapper;
             _alunoRepository = alunoRepository;
         }
-        public async Task<ServiceResult> CadastroAluno(CadastroAlunoRequest request)
+        public async Task<ServiceResult> CadastroAluno(CadastroRequest request)
         {
             ServiceResult serviceResult = new ServiceResult();
 
-            int validarSeRegistoJaExiste = await _alunoRepository.ValidarRegistroNaBase(request.Documento);
-            if(validarSeRegistoJaExiste > 0){
-                request.AddNotification("Documento","Já existe um aluno cadastrado com esse documento: " + request.Documento);
+            Documento cpf = new Documento(request.Cpf);
+            if (!cpf.Valid)
+            {
+                serviceResult.Status = false;
+                serviceResult.Notificacoes = cpf.Notifications;
+                return serviceResult;
             }
 
-            if(!request.Valid){
-                foreach (var item in request.Notifications)
-                {
-                    serviceResult.Status = false;
-                    serviceResult.Notificacoes = item.Message;
-                }
+            var aluno = new Aluno(request.Nome, request.SobreNome, cpf, request.Rg, ETipoPessoa.Aluno, request.Email,
+            request.Telefone, request.Celular, request.DataNascimento, request.Turma, request.Periodo);
+
+            var endereco = new Endereco(request.Pais, request.Uf, request.Cidade, request.Cep, request.Bairro,
+            request.Rua, request.Numero, request.Complemento);
+
+            AlunoCommand command = new AlunoCommand(aluno, endereco);
+
+            int validarSeRegistoJaExiste = await _alunoRepository.ValidarRegistroNaBase(request.Cpf);
+            if (validarSeRegistoJaExiste > 0)
+            {
+                command.AddNotification("Documento", "Já existe um aluno cadastrado com esse documento: " + aluno.Cpf);
+            }
+
+            if (!command.Valid)
+            {
+                serviceResult.Status = false;
+                serviceResult.Notificacoes = command.Notifications;
+
                 return serviceResult;
             }
             try
             {
-                var aluno = new Aluno();
-                var result = await _alunoRepository.CadastrarNovoAluno(request);
+                var result = await _alunoRepository.CadastrarNovoAluno(command);
                 if (result)
                 {
                     serviceResult.Status = result;

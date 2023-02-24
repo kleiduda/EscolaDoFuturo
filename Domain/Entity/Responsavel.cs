@@ -1,21 +1,21 @@
-﻿using System;
+﻿using Domain.Enums;
 using Domain.ValueObject;
 
 namespace Domain.Entity
 {
-	public class Responsavel
-	{
-        public Responsavel(Nome nome, string documento,
-            Aluno aluno)
+    public class Responsavel : Pessoa
+    {
+        public Responsavel()
         {
-            Nome = nome;
-            Documento = documento;
-            Aluno = aluno;
+            
         }
+        public Responsavel(string nome, string sobreNome,Documento cpf, string rg, ETipoPessoa tipo, string email, 
+        string telefone, string celular, DateTime dataNascimento)
+        :base(nome, sobreNome, cpf, rg, tipo, email, telefone, celular, dataNascimento)
+        {
+        }
+        public int CdResponsavel { get; set; }
 
-        public Nome Nome { get; set; }
-		public string Documento { get; set; }
-		public Aluno Aluno { get; set; }
-	}
+    }
 }
 

@@ -1,4 +1,6 @@
-﻿namespace Domain.Arguments.Responses
+﻿using Flunt.Notifications;
+
+namespace Domain.Arguments.Responses
 {
     public class ServiceResult : IServiceResult
     {
@@ -6,7 +8,7 @@
         {
         }
 
-        public ServiceResult(bool status, string mensagem, string erro, object data, string notificacoes)
+        public ServiceResult(bool status, string mensagem, string erro, object data, IReadOnlyCollection<Notification> notificacoes)
         {
             Status = status;
             Mensagem = mensagem;
@@ -19,7 +21,7 @@
         public string Mensagem { get ; set ; }
         public string Erro { get; set; }
         public object Data { get; set ; }
-        public string Notificacoes { get; set; }
+        public IReadOnlyCollection<Notification> Notificacoes { get; set; }
     }
 }
 

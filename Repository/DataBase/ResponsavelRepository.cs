@@ -1,6 +1,5 @@
 using Dapper;
 using Domain.Arguments.Requests;
-using Domain.Commands;
 using Domain.Entity;
 using Domain.Interfaces.Repository;
 using Repository.DapperConfig;
@@ -8,14 +7,14 @@ using Repository.DataBase.Sql;
 
 namespace Repository.DataBase
 {
-    public class AlunoRepository: IAlunoRepository
+    public class ResponsavelRepository : IResponsavelRepository
     {
         private DbSession _session;
-        public AlunoRepository(DbSession session)
+        public ResponsavelRepository(DbSession session)
         {
             _session = session;
         }
-        public async Task<bool> CadastrarNovoAluno(AlunoCommand request)
+        public async Task<bool> CadastrarNovoResponsavel(CadastroResponsavelRequest request)
         {
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("pais", request.Endereco.Pais);
@@ -27,19 +26,17 @@ namespace Repository.DataBase
             parameters.Add("numero", request.Endereco.Numero);
             parameters.Add("complemento", request.Endereco.Complemento);
 
-            parameters.Add("nome", request.Aluno.Nome);
-            parameters.Add("sobreNome", request.Aluno.SobreNome);
-            parameters.Add("email", request.Aluno.Email);
-            parameters.Add("cpf", request.Aluno.Cpf);
-            parameters.Add("rg", request.Aluno.Rg);
-            parameters.Add("telefone", request.Aluno.Telefone);
-            parameters.Add("celular", request.Aluno.Celular);
-            parameters.Add("data_nascimento", request.Aluno.DataNascimento);
-            parameters.Add("turma", request.Aluno.Turma);
-            parameters.Add("periodo", request.Aluno.Periodo);
-            parameters.Add("tipo", request.Aluno.Tipo);
+            parameters.Add("nome", request.Responsavel.Nome);
+            parameters.Add("sobreNome", request.Responsavel.SobreNome);
+            parameters.Add("cpf", request.Responsavel.Cpf);
+            parameters.Add("rg", request.Responsavel.Rg);
+            parameters.Add("data_nascimento", request.Responsavel.DataNascimento);
+            parameters.Add("email", request.Responsavel.Email);
+            parameters.Add("telefone", request.Responsavel.Telefone);
+            parameters.Add("celular", request.Responsavel.Celular);
+            parameters.Add("tipo", request.Responsavel.Tipo);
 
-            
+
             var transaction = _session.Connection.BeginTransaction();
             try
             {
@@ -48,7 +45,7 @@ namespace Repository.DataBase
 
                 await _session.Connection.ExecuteScalarAsync(EnderecoSqlString.CadastroEndereco, parameters, transaction);
 
-                int result = await _session.Connection.ExecuteAsync(AlunoSqlString.CadastroNovoALuno, parameters, transaction);
+                int result = await _session.Connection.ExecuteAsync(ResponsavelSqlString.CadastroNovoResponsavel, parameters, transaction);
 
                 transaction.Commit();
                 if (result > 0)
@@ -67,32 +64,31 @@ namespace Repository.DataBase
             }
         }
 
-        public async Task<IEnumerable<Aluno>> ListarAlunos(FilterRequest request)
+        public async Task<IEnumerable<Responsavel>> ListarResponsaveis(FilterRequest request)
         {
-            IEnumerable<Aluno> alunos = new List<Aluno>();
+            IEnumerable<Responsavel> responsaveis = new List<Responsavel>();
 
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("numero_pagina", request.NUMERO_PAGINA);
             parameters.Add("itens_por_pagina", request.ITENS_POR_PAGINA);
 
-            alunos = await _session.Connection.QueryAsync<Aluno>(AlunoSqlString.ListarAlunos, parameters, _session.Transaction);
-            return alunos;
+            responsaveis = await _session.Connection.QueryAsync<Responsavel>(ResponsavelSqlString.ListarResponsaveis, parameters, _session.Transaction);
+            return responsaveis;
         }
 
-        public async Task<Aluno> ObterAlunoPeloCodigo(int codigoAluno)
+        public async Task<Responsavel> ObterResponsavelPeloCodigo(int codigo)
         {
             DynamicParameters parameters = new DynamicParameters();
-            parameters.Add("cd_pessoa", codigoAluno);
-            var result = await _session.Connection.QueryFirstOrDefaultAsync<Aluno>(AlunoSqlString.ObterAlunoPeloCodigo, parameters, _session.Transaction);
+            parameters.Add("cd_pessoa", codigo);
+            var result = await _session.Connection.QueryFirstOrDefaultAsync<Responsavel>(ResponsavelSqlString.ObterResponsavelPeloCodigo, parameters, _session.Transaction);
 
             return result;
         }
-
-        public async Task<bool> ExcluirAluno(int codigoALuno)
+        public async Task<bool> ExcluirResponsavel(int codigo)
         {
             DynamicParameters parameters = new DynamicParameters();
-            parameters.Add("cd_pessoa", codigoALuno);
-            int result = await _session.Connection.ExecuteAsync(AlunoSqlString.ExcluirAluno, parameters, _session.Transaction);
+            parameters.Add("cd_pessoa", codigo);
+            int result = await _session.Connection.ExecuteAsync(ResponsavelSqlString.ExcluirResponsavel, parameters, _session.Transaction);
             if (result > 0)
             {
                 return true;
@@ -108,7 +104,7 @@ namespace Repository.DataBase
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("cpf", value);
 
-            var result = await _session.Connection.ExecuteScalarAsync<int>(AlunoSqlString.ValidarRegistroNaBase, parameters, _session.Transaction);
+            var result = await _session.Connection.ExecuteScalarAsync<int>(ResponsavelSqlString.ValidarRegistroNaBase, parameters, _session.Transaction);
             return result;
         }
     }

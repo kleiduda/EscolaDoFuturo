@@ -5,9 +5,9 @@ namespace Domain.Interfaces.Services
 {
     public interface IResponsavelService
     {
-        Task<ServiceResult> CadastroResponsavel(CadastroResponsavelRequest request);
-        Task<ServiceResult> ObterResponsavelPeloCodigo(int codigoAluno);
+        Task<ServiceResult> CadastroResponsavel(CadastroRequest request);
+        Task<ServiceResult> ObterResponsavelPeloCodigo(int codigo);
         Task<ServiceResult> ListarResponsaveis(FilterRequest request);
-        Task<ServiceResult> ExcluirResponsavel(int codigoALuno);
+        Task<ServiceResult> ExcluirResponsavel(int codigo);
     }
 }

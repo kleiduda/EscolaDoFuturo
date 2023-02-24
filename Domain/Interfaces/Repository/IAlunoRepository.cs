@@ -1,11 +1,12 @@
 using Domain.Arguments.Requests;
+using Domain.Commands;
 using Domain.Entity;
 
 namespace Domain.Interfaces.Repository
 {
     public interface IAlunoRepository
     {
-        Task<bool> CadastrarNovoAluno(CadastroAlunoRequest request);
+        Task<bool> CadastrarNovoAluno(AlunoCommand command);
         Task<Aluno> ObterAlunoPeloCodigo(int codigoAluno);
         Task<int> ValidarRegistroNaBase(string value);
         Task<IEnumerable<Aluno>> ListarAlunos(FilterRequest request);

@@ -5,24 +5,13 @@ namespace Domain.Arguments.Requests
 {
     public class CadastroAlunoRequest : Notifiable
     {
-        public CadastroAlunoRequest(string nome, string sobreNome, string documento,
-                                    DateTime dataNascimento, int turma, int periodo, Endereco endereco)
+        public CadastroAlunoRequest(Aluno aluno, Endereco endereco)
         {
-            Nome = nome;
-            SobreNome = sobreNome;
-            Documento = documento;
-            DataNascimento = dataNascimento;
-            Turma = turma;
-            Periodo = periodo;
+            Aluno = aluno;
             Endereco = endereco;
         }
 
-        public string Nome { get; set; }
-        public string SobreNome { get; set; }
-        public string Documento { get; set; }
-        public DateTime DataNascimento { get; set; }
-        public int Turma { get; set; }
-        public int Periodo { get; set; }
+        public Aluno Aluno { get; set; }
         public Endereco Endereco { get; set; }
 
     }
