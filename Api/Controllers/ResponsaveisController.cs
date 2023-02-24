@@ -21,7 +21,7 @@ namespace Api.Controllers
         }
 
         [HttpPost("cadastro")]
-        public async Task<IServiceResult> CadastrarNovoResponsavel([FromBody] CadastroResponsavelRequest request)
+        public async Task<IServiceResult> CadastrarNovoResponsavel([FromBody] CadastroRequest request)
         {
             return await _responsavelService.CadastroResponsavel(request);
         }
@@ -30,7 +30,16 @@ namespace Api.Controllers
         {
             return await _responsavelService.ListarResponsaveis(request);
         }
-
+        [HttpGet("buscar")]
+        public async Task<IServiceResult> ObterResponsavelPeloCodigo(int codigo)
+        {
+            return await _responsavelService.ObterResponsavelPeloCodigo(codigo);
+        }
+        [HttpDelete("excluir")]
+        public async Task<IServiceResult> ExcluirResponsavel(int codigo)
+        {
+            return await _responsavelService.ExcluirResponsavel(codigo);
+        }
 
     }
 }

@@ -20,12 +20,18 @@ builder.Services.AddControllers().AddJsonOptions(options =>
     options.JsonSerializerOptions.DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull;
 });
 
-//
+
 builder.Services.AddScoped<IAlunoService,AlunoService>();
 builder.Services.AddScoped<IAlunoRepository, AlunoRepository>();
-//
+
 builder.Services.AddScoped<IResponsavelRepository, ResponsavelRepository>();
 builder.Services.AddScoped<IResponsavelService, ResponsavelService>();
+
+builder.Services.AddScoped<IEscolaService, EscolaService>();
+builder.Services.AddScoped<IEscolaRepository, EscolaRepository>();
+
+builder.Services.AddScoped<IUsuarioService, UsuarioService>();
+builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 
 builder.Services.AddScoped<DbSession>();
 builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
