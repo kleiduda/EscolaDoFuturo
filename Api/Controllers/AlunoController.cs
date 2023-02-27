@@ -18,7 +18,7 @@ public class AlunoController : ControllerBase
         _alunoService = alunoService;
     }
     [HttpPost("cadastro")]
-    public async Task<IServiceResult> CadastrarNovoAluno([FromBody] CadastroRequest request)
+    public async Task<IServiceResult> CadastrarNovoAluno([FromBody] CadastroAlunoRequest request)
     {
          return await _alunoService.CadastroAluno(request);
     }

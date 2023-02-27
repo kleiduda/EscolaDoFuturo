@@ -4,7 +4,8 @@ using Domain.services;
 using Repository.DataBase;
 using Repository.DapperConfig;
 using Microsoft.Extensions.DependencyInjection;
-
+using Dapper;
+using Repository.DapperConfig.Mapping;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -45,6 +46,7 @@ builder.Services.AddSingleton<IConfiguration>(configuration);
 
 //autommaper
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+//SqlMapper.AddTypeHandler(new DocumentoTypeHandler());
 var app = builder.Build();
 
 // Adiciona a connection string do User Secrets à sua aplicação

@@ -21,7 +21,7 @@ namespace Api.Controllers
         }
 
         [HttpPost("cadastro")]
-        public async Task<IServiceResult> CadastrarNovoResponsavel([FromBody] CadastroRequest request)
+        public async Task<IServiceResult> CadastrarNovoResponsavel([FromBody] CadastroResponsavelRequest request)
         {
             return await _responsavelService.CadastroResponsavel(request);
         }
